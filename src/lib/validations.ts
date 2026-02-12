@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CleaningType } from '@/types';
+import { CleaningType } from '../types';
 
 export const bookingSchema = z.object({
   fullName: z

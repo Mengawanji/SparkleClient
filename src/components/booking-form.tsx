@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { bookingSchema, type BookingFormSchema } from '@/lib/validations';
 import { createBooking, ApiError } from '@/lib/api';
 import { CleaningType } from '@/types';
-import { CLEANING_TYPE_LABELS } from '@/lib/utils';
+import { CLEANING_TYPE_LABELS } from '@lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
