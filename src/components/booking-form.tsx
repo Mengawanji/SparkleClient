@@ -7,13 +7,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { bookingSchema, type BookingFormSchema } from '@/lib/validations';
 import { createBooking, ApiError } from '@/lib/api';
 import { CleaningType } from '@/types';
-import { CLEANING_TYPE_LABELS } from '@lib/utils';
+import { CLEANING_TYPE_LABELS } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { PriceCalculator } from '@/components/price-calculator';
+import { PriceCalculator } from './price-calculator';
 
 export function BookingForm() {
   const router = useRouter();
@@ -23,6 +23,7 @@ export function BookingForm() {
   const {
     register,
     handleSubmit,
+    setValue, 
     watch,
     formState: { errors },
   } = useForm<BookingFormSchema>({
@@ -118,18 +119,23 @@ export function BookingForm() {
           <CardContent className="space-y-4">
             <div>
               <Label htmlFor="cleaningType">Cleaning Type *</Label>
-              <Select
-                id="cleaningType"
-                {...register('cleaningType')}
-                className={errors.cleaningType ? 'border-red-500' : ''}
-              >
-                <option value="">Select cleaning type</option>
-                {Object.values(CleaningType).map((type) => (
-                  <option key={type} value={type}>
-                    {CLEANING_TYPE_LABELS[type]}
-                  </option>
-                ))}
-              </Select>
+          <Select
+            onValueChange={(value) =>
+                  setValue("cleaningType", value as CleaningType)
+                }
+          >
+            <SelectTrigger className={errors.cleaningType ? "border-red-500" : ""}>
+              <SelectValue placeholder="Select cleaning type" />
+            </SelectTrigger>
+
+            <SelectContent>
+              {Object.values(CleaningType).map((type) => (
+                <SelectItem key={type} value={type}>
+                  {CLEANING_TYPE_LABELS[type]}
+                </SelectItem>
+              ))}   
+            </SelectContent>
+          </Select>
               {errors.cleaningType && (
                 <p className="text-sm text-red-600 mt-1">
                   {errors.cleaningType.message}

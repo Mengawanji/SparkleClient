@@ -1,10 +1,7 @@
-// src/app/page.tsx
-
 import { HeroSection } from '../components/hero-section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CleaningType } from '@/types';
-import { CLEANING_TYPE_LABELS, PRICING_RATES, formatCurrency } from '@/lib/utils';
-
+import { CLEANING_TYPE_LABELS, PRICING_RATES, formatCurrency  } from '@/lib/utils';
 export default function HomePage() {
   return (
     <div className="min-h-screen">

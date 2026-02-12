@@ -1,7 +1,7 @@
 'use client';
 
-import { CleaningType } from '../types';
-import { calculatePrice, formatCurrency, CLEANING_TYPE_LABELS } from '../lib/utils'; 
+import { CleaningType } from '@/types';
+import { calculatePrice, formatCurrency, CLEANING_TYPE_LABELS } from '@/lib/utils'; 
 import { Card, CardContent } from '@/components/ui/card';
 
 interface PriceCalculatorProps {
