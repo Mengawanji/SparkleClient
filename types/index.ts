@@ -7,12 +7,14 @@ export enum CleaningType {
 export interface BookingFormData {
   fullName: string;
   email: string;
+  phone: string;
   address: string;
   cleaningType: CleaningType;
   numberOfBedrooms: number;
   numberOfBathrooms: number;
   preferredDate: string;
   preferredTime: string;
+  additionalNotes?: string;
 }
 
 export interface PricingRates {
@@ -30,6 +32,7 @@ export interface BookingResponse {
   id: string;
   fullName: string;
   email: string;
+  phone: string
   address: string;
   cleaningType: CleaningType;
   numberOfBedrooms: number;

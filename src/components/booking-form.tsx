@@ -11,6 +11,7 @@ import { CLEANING_TYPE_LABELS } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea'; 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PriceCalculator } from './price-calculator';
@@ -93,6 +94,24 @@ export function BookingForm() {
               {errors.email && (
                 <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
               )}
+            </div>
+
+            {/* NEW: Phone Number Field */}
+            <div>
+              <Label htmlFor="phone">Phone Number</Label>
+              <Input
+                id="phone"
+                type="tel"
+                {...register('phone')}
+                placeholder="(555) 123-4567"
+                className={errors.phone ? 'border-red-500' : ''}
+              />
+              {errors.phone && (
+                <p className="text-sm text-red-600 mt-1">{errors.phone.message}</p>
+              )}
+              <p className="text-xs text-gray-500 mt-1">
+                Optional - for urgent contact if needed
+              </p>
             </div>
 
             <div>
@@ -215,6 +234,33 @@ export function BookingForm() {
                   </p>
                 )}
               </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* NEW: Additional Notes Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Additional Information</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label htmlFor="additionalNotes">Special Requests or Notes</Label>
+              <Textarea
+                id="additionalNotes"
+                {...register('additionalNotes')}
+                placeholder="Let us know if you have any special requirements, areas to focus on, access instructions, or any other information..."
+                rows={4}
+                className={errors.additionalNotes ? 'border-red-500' : ''}
+              />
+              {errors.additionalNotes && (
+                <p className="text-sm text-red-600 mt-1">
+                  {errors.additionalNotes.message}
+                </p>
+              )}
+              <p className="text-xs text-gray-500 mt-1">
+                Examples: focus on kitchen, need to use service entrance, allergic to certain products, etc.
+              </p>
             </div>
           </CardContent>
         </Card>
