@@ -7,6 +7,13 @@ export const bookingSchema = z.object({
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters'),
   email: z.string().email('Invalid email address'),
+  phone: z
+    .string()
+    .regex(/^(?:\+1)?[\s.-]*\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}$/, {
+        message: "Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567)"
+    })
+    .optional()
+    .or(z.literal('')),
   address: z
     .string()
     .min(10, 'Address must be at least 10 characters')
@@ -36,6 +43,11 @@ export const bookingSchema = z.object({
   preferredTime: z
     .string()
     .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (use HH:MM)'),
+  additionalNotes: z
+    .string()
+    .max(1000, 'Notes must be less than 1000 characters')
+    .optional()
+    .or(z.literal('')),
 });
 
 export type BookingFormSchema = z.infer<typeof bookingSchema>;

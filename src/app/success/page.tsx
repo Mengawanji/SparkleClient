@@ -19,7 +19,7 @@ export default function SuccessPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <p className="text-center text-gray-600 text-lg">
-              Thank you for booking with CleanHome Services. We've sent a
+              Thank you for booking with Sandy's Sparkle Touch. We've sent a
               confirmation email with all the details.
             </p>
 
@@ -54,7 +54,7 @@ export default function SuccessPage() {
 
             <div className="flex justify-center pt-4">
               <Link href="/">
-                <Button size="lg">Return to Home</Button>
+                <Button size="lg">Sandy's TOuch</Button>
               </Link>
             </div>
           </CardContent>

@@ -95,8 +95,6 @@ export function BookingForm() {
                 <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>
               )}
             </div>
-
-            {/* NEW: Phone Number Field */}
             <div>
               <Label htmlFor="phone">Phone Number</Label>
               <Input
