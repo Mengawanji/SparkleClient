@@ -16,6 +16,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PriceCalculator } from './price-calculator';
 
+const MAX_NOTES = 250;
+
 export function BookingForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,6 +39,11 @@ export function BookingForm() {
   });
 
   const watchedValues = watch();
+  // ✅ Watch additionalNotes specifically for the character count
+  const additionalNotes = watch('additionalNotes') ?? '';
+  const charsUsed = additionalNotes.length;
+  const charsRemaining = MAX_NOTES - charsUsed;
+
   const showPriceCalculator =
     watchedValues.cleaningType &&
     watchedValues.numberOfBedrooms >= 0 &&
@@ -236,7 +243,6 @@ export function BookingForm() {
           </CardContent>
         </Card>
 
-        {/* NEW: Additional Notes Card */}
         <Card>
           <CardHeader>
             <CardTitle>Additional Information</CardTitle>
@@ -249,16 +255,31 @@ export function BookingForm() {
                 {...register('additionalNotes')}
                 placeholder="Let us know if you have any special requirements, areas to focus on, access instructions, or any other information..."
                 rows={4}
-                className={errors.additionalNotes ? 'border-red-500' : ''}
+                // ✅ Red border if there's a validation error OR they've exceeded the limit
+                className={errors.additionalNotes || charsRemaining < 0 ? 'border-red-500' : ''}
               />
               {errors.additionalNotes && (
                 <p className="text-sm text-red-600 mt-1">
                   {errors.additionalNotes.message}
                 </p>
               )}
-              <p className="text-xs text-gray-500 mt-1">
-                Examples: focus on kitchen, need to use service entrance, allergic to certain products, etc.
-              </p>
+              {/* ✅ Footer row: hint text on the left, character count on the right */}
+              <div className="flex justify-between items-center mt-1">
+                <p className="text-xs text-gray-500">
+                  Examples: focus on kitchen, need to use service entrance, allergic to certain products, etc.
+                </p>
+                <p
+                  className={`text-xs tabular-nums shrink-0 ml-4 ${
+                    charsRemaining < 0
+                      ? 'text-red-500 font-medium'
+                      : charsRemaining < 100
+                      ? 'text-yellow-500'
+                      : 'text-gray-400'
+                  }`}
+                >
+                  {charsUsed}/{MAX_NOTES}
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>

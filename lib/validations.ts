@@ -8,12 +8,14 @@ export const bookingSchema = z.object({
     .max(100, 'Name must be less than 100 characters'),
   email: z.string().email('Invalid email address'),
   phone: z
-    .string()
-    .regex(/^(?:\+1)?[\s.-]*\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}$/, {
-        message: "Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567)"
-    })
+    .union([
+      z.string().length(0), // empty string
+      z.string().regex(/^(?:\+1)?[\s.-]*\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}$/, {
+        message: "Please enter valid phone number ((555) 123-4567 or 555-123-4567)"
+      })
+    ])
     .optional()
-    .or(z.literal('')),
+    .transform(e => e === "" ? undefined : e),
   address: z
     .string()
     .min(10, 'Address must be at least 10 characters')
@@ -45,7 +47,7 @@ export const bookingSchema = z.object({
     .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'Invalid time format (use HH:MM)'),
   additionalNotes: z
     .string()
-    .max(1000, 'Notes must be less than 1000 characters')
+    .max(1000, 'Notes must be less than 250 characters')
     .optional()
     .or(z.literal('')),
 });
