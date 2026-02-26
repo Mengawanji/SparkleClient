@@ -21,7 +21,7 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between h-16 items-center">
               <div className="flex items-center">
-                <span className="text-2xl font-bold text-blue-600">🧹 CleanHome</span>
+                <span className="text-2xl font-bold text-blue-600">Sandy's Sparkle</span>
               </div>
               <div className="flex space-x-4">
                 <a href="/" className="text-gray-700 hover:text-blue-600 px-3 py-2">
@@ -40,7 +40,7 @@ export default function RootLayout({
         <footer className="bg-gray-50 border-t border-gray-200 mt-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <p className="text-center text-gray-600">
-              © 2024 CleanHome Services. All rights reserved.
+              © 2026 Sandy's Sparkle Touch. All rights reserved.
             </p>
           </div>
         </footer>
