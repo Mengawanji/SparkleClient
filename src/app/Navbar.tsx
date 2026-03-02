@@ -82,10 +82,10 @@ const services = [
 ];
 
 const navLinks = [
-  { label: 'Book', href: '/book' },
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Gallery', href: '/gallery' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'Faq', href: '/faq' },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -171,11 +171,11 @@ export function Navbar() {
             <nav className="hidden lg:flex items-center gap-8">
               {/* Book link — highlighted */}
               <Link
-                href="/book"
+                href="/"
                 className="font-semibold text-[#3B4FCC] hover:text-[#2f42b8] transition-colors duration-200 relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#3B4FCC] after:transition-all after:duration-200 hover:after:w-full"
                 style={{ fontSize: '1rem' }}
               >
-                Book
+                Home
               </Link>
 
               <Link href="/about" className={linkCls} style={{ fontSize: '1rem' }}>About</Link>
@@ -239,7 +239,7 @@ export function Navbar() {
               </div>
 
               <Link href="/gallery" className={linkCls} style={{ fontSize: '1rem' }}>Gallery</Link>
-              <Link href="/blog" className={linkCls} style={{ fontSize: '1rem' }}>Blog</Link>
+              <Link href="/faq" className={linkCls} style={{ fontSize: '1rem' }}>Faq</Link>
               <Link href="/contact" className={linkCls} style={{ fontSize: '1rem' }}>Contact</Link>
             </nav>
 

@@ -16,21 +16,15 @@ import {
   WashingMachine,
   ChevronLeft,
   ChevronRight,
-  Clock,
   SmilePlus,
   Trophy,
   Glasses,
   Phone,
   Shield,
   Medal,
-  Check,
   Users,
   Star,
-  Gem,
   CheckCircle2,
-  Handshake,
-  Plane,
-  Leaf,
 } from "lucide-react";
 
 // ─── Brand blue (matches ServicesSection) ───
