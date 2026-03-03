@@ -6,7 +6,7 @@ const services = [
   {
     title: "House Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Comprehensive home cleaning services designed to keep your living space fresh, organized, and spotless. We handle dusting, vacuuming, mopping, sanitizing surfaces, and detailed attention to bedrooms, bathrooms, and common areas.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
@@ -23,7 +23,7 @@ const services = [
   {
     title: "Kitchen Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Deep and routine kitchen cleaning to maintain a hygienic cooking environment. We clean countertops, cabinets, sinks, appliances, stovetops, and floors while removing grease, stains, and food buildup.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
@@ -40,7 +40,7 @@ const services = [
   {
     title: "Office Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Professional office cleaning services that create a clean, healthy, and productive work environment. We sanitize desks, meeting rooms, restrooms, common areas, and ensure trash removal and floor care are handled efficiently.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
@@ -56,7 +56,7 @@ const services = [
   {
     title: "Window Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Streak-free interior and exterior window cleaning that improves natural light and enhances the appearance of your property. We carefully clean glass panels, frames, and tracks for a polished finish.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
@@ -73,7 +73,7 @@ const services = [
   {
     title: "Residential Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Customized residential cleaning tailored to apartments, houses, and condos. Whether scheduled weekly or monthly, we ensure every room is thoroughly cleaned and maintained to high standards.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
@@ -88,7 +88,7 @@ const services = [
   {
     title: "Carpet Cleaning",
     description:
-      "Buscipit tincidunt duis antino gravidia tellusy nascetur neque vulpuits pointings scelerisque ultrces muscle mass pers order commounication pointing.",
+      "Deep carpet cleaning services that remove dirt, allergens, and tough stains. Using safe and effective methods, we restore freshness, extend carpet life, and improve indoor air quality.",
     icon: (
       <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" fill="#EEF2FF"/>
