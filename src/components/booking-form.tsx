@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { SubmitHandler } from "react-hook-form";
+import { z } from 'zod'
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -111,8 +113,8 @@ export function BookingForm() {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<BookingFormSchema>({
-    resolver: zodResolver(bookingSchema),
+  } = useForm<z.input<typeof bookingSchema>>({
+  resolver: zodResolver(bookingSchema),
     defaultValues: {
       numberOfBedrooms: 2,
       numberOfBathrooms: 1,
@@ -130,7 +132,7 @@ export function BookingForm() {
     watchedValues.numberOfBedrooms >= 0 &&
     watchedValues.numberOfBathrooms >= 1;
 
-  const onSubmit = async (data: BookingFormSchema) => {
+  const onSubmit: SubmitHandler<z.input<typeof bookingSchema>> = async (data) => {
     setIsSubmitting(true);
     setError(null);
     try {
