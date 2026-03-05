@@ -34,16 +34,16 @@ const BLUE_LIGHT = "#EEF2FF";
 // ─────────────────────────────────────────────
 // COUNTER HOOK
 // ─────────────────────────────────────────────
-function useCounter(target, duration = 2000) {
+function useCounter(target: number, duration = 2000) {
   const [count, setCount] = useState(0);
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
         observer.disconnect();
-        let start = null;
-        const step = (ts) => {
+        let start: number | null = null;
+        const step = (ts: number) => {
           if (!start) start = ts;
           const progress = Math.min((ts - start) / duration, 1);
           setCount(Math.floor(progress * target));
@@ -56,7 +56,7 @@ function useCounter(target, duration = 2000) {
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [target, duration]);
-  return [count, ref];
+  return [count, ref] as [number, React.RefObject<HTMLDivElement>];
 }
 
 // ─────────────────────────────────────────────
@@ -90,13 +90,14 @@ const stats = [
   { Icon: Glasses,    value: 1344, label: "Glass Cleaned"    },
 ];
 
+type StatItem = typeof stats[number];
 
 const VISIBLE = 4;
 
 // ─────────────────────────────────────────────
 // STAT CARD
 // ─────────────────────────────────────────────
-function StatItem({ Icon, value, label }) {
+function StatItem({ Icon, value, label }: { Icon: React.ElementType; value: number; label: string }) {
   const [count, ref] = useCounter(value);
   return (
     <div
@@ -138,17 +139,17 @@ function StatItem({ Icon, value, label }) {
 function ServiceCarousel() {
   const [current, setCurrent] = useState(0);
   const total = topServices.length;
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
 
   useEffect(() => {
     intervalRef.current = setInterval(next, 3000);
-    return () => clearInterval(intervalRef.current);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [next]);
 
-  const pause  = () => clearInterval(intervalRef.current);
+  const pause  = () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   const resume = () => { intervalRef.current = setInterval(next, 3000); };
 
   const indices = Array.from({ length: VISIBLE }, (_, i) => (current + i) % total);
@@ -249,23 +250,22 @@ const CAROUSEL_IMAGES = [
 ];
 
 const TEAL = "#20b2aa";
-const TEAL_DARK = "#1a9990";
 const TEAL_BG = "#c8e6e6";
 
-function NewGenerationSection({ stats }) {
+function NewGenerationSection({ stats }: { stats: StatItem[] }) {
   const [activeSlide, setActiveSlide] = useState(0);
-  const slideTimer = useRef(null);
+  const slideTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const goTo = useCallback((idx) => setActiveSlide(idx), []);
+  const goTo = useCallback((idx: number) => setActiveSlide(idx), []);
 
   useEffect(() => {
     slideTimer.current = setInterval(() => {
       setActiveSlide((s) => (s + 1) % CAROUSEL_IMAGES.length);
     }, 4000);
-    return () => clearInterval(slideTimer.current);
+    return () => { if (slideTimer.current) clearInterval(slideTimer.current); };
   }, []);
 
-  const pause  = () => clearInterval(slideTimer.current);
+  const pause  = () => { if (slideTimer.current) clearInterval(slideTimer.current); };
   const resume = () => { slideTimer.current = setInterval(() => setActiveSlide((s) => (s + 1) % CAROUSEL_IMAGES.length), 4000); };
 
   const containerStyle = { maxWidth: "80rem", margin: "0 auto", padding: "0 1rem" };
@@ -301,7 +301,6 @@ function NewGenerationSection({ stats }) {
             onMouseEnter={pause}
             onMouseLeave={resume}
           >
-            {/* Crossfading images */}
             {CAROUSEL_IMAGES.map((src, i) => (
               <img
                 key={src}
@@ -399,9 +398,9 @@ function NewGenerationSection({ stats }) {
         <div style={{
           display: "flex", flexWrap: "wrap", gap: "16px",
           marginTop: "28px", paddingBottom: "52px",
-          position: "relative", zIndex: 3,        
+          position: "relative", zIndex: 3,
         }}>
-          {stats.map((s:any) => <StatItem key={s.label} {...s} />)}
+          {stats.map((s) => <StatItem key={s.label} {...s} />)}
         </div>
       </div>
 
@@ -445,7 +444,6 @@ export default function HomePageSections() {
         >
           {/* Left: photo + overlapping badge */}
           <div style={{ position: "relative", flex: "0 0 auto", width: "320px" }}>
-            {/* Main photo placeholder */}
             <div
               style={{
                 width: "320px", height: "400px",
@@ -457,7 +455,7 @@ export default function HomePageSections() {
               <Users size={100} color={BLUE} strokeWidth={0.8} />
             </div>
 
-            {/* Overlapping teal badge bottom-left */}
+            {/* Overlapping badge bottom-left */}
             <div
               style={{
                 position: "absolute", bottom: "32px", left: "-16px",
@@ -502,7 +500,6 @@ export default function HomePageSections() {
               Washia customers has a tremendous opportunity to answer the call of logistic needs across the globe. Has 26 affiliated state soybean associations representing 30 soybean-producing states.
             </p>
 
-            {/* READ MORE link */}
             <p
               style={{
                 fontSize: "1rem", fontWeight: "700", color: "#1a1a2e",
@@ -514,7 +511,6 @@ export default function HomePageSections() {
               READ MORE
             </p>
 
-            {/* Signature + phone row */}
             <div style={{ display: "flex", alignItems: "center", gap: "32px", flexWrap: "wrap" }}>
               <div style={{ fontFamily: "cursive", fontSize: "2.2rem", color: "#1a1a2e", lineHeight: 1 }}>
                 Sandy
