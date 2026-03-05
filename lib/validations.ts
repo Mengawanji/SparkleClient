@@ -21,7 +21,7 @@ export const bookingSchema = z.object({
     .min(10, 'Address must be at least 10 characters')
     .max(200, 'Address must be less than 200 characters'),
   cleaningType: z.nativeEnum(CleaningType, {
-    errorMap: () => ({ message: 'Please select a cleaning type' }),
+    error: () => ({ message: 'Please select a cleaning type' }),
   }),
   numberOfBedrooms: z
     .number()
