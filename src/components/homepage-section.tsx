@@ -63,15 +63,10 @@ function useCounter(target: number, duration = 2000) {
 // DATA
 // ─────────────────────────────────────────────
 const topServices = [
-  { Icon: Sparkles,       title: "Deep Cleaning",      desc: "Thorough top-to-bottom cleaning for every corner of your home." },
   { Icon: Sofa,           title: "Carpet Cleaning",     desc: "We know you enjoy family life — let us handle the dirty work." },
-  { Icon: Building2,      title: "Apartment Cleaning",  desc: "As a leading company, our training truly distinguishes us." },
-  { Icon: Home,           title: "Home Cleaning",       desc: "Professional home care from the most trusted team in town." },
-  { Icon: Wind,           title: "Air Duct Cleaning",   desc: "Breathe easier with our certified air duct cleaning service." },
   { Icon: ShowerHead,     title: "Bathroom Cleaning",   desc: "Spotless, sanitized bathrooms you can be proud of every day." },
   { Icon: Shirt,          title: "Laundry Service",     desc: "Fresh, folded laundry delivered back to you on time." },
   { Icon: Trash2,         title: "Junk Removal",        desc: "Fast, responsible removal of unwanted clutter and rubbish." },
-  { Icon: FlameKindling,  title: "Chimney Cleaning",    desc: "Safe and thorough chimney sweeping by certified experts." },
   { Icon: Car,            title: "Garage Cleaning",     desc: "Reclaim your garage space with our deep clean service." },
   { Icon: TreePine,       title: "Outdoor Cleaning",    desc: "Patios, decks, and exteriors sparkling clean year-round." },
   { Icon: WashingMachine, title: "Appliance Cleaning",  desc: "Extend appliance life with our specialist interior cleaning." },
@@ -92,7 +87,7 @@ const stats = [
 
 type StatItem = typeof stats[number];
 
-const VISIBLE = 4;
+const VISIBLE = 3;
 
 // ─────────────────────────────────────────────
 // STAT CARD
@@ -140,6 +135,28 @@ function ServiceCarousel() {
   const [current, setCurrent] = useState(0);
   const total = topServices.length;
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  
+  // Determine number of visible cards based on screen size
+  const [visibleCards, setVisibleCards] = useState(3); // Default to desktop
+  
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setVisibleCards(1); // Mobile: 1 card
+      } else {
+        setVisibleCards(3); // Desktop: 3 cards
+      }
+    };
+    
+    // Set initial value
+    handleResize();
+    
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % total), [total]);
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
@@ -152,7 +169,7 @@ function ServiceCarousel() {
   const pause  = () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   const resume = () => { intervalRef.current = setInterval(next, 3000); };
 
-  const indices = Array.from({ length: VISIBLE }, (_, i) => (current + i) % total);
+  const indices = Array.from({ length: visibleCards }, (_, i) => (current + i) % total);
 
   return (
     <div onMouseEnter={pause} onMouseLeave={resume} style={{ position: "relative" }}>
@@ -160,7 +177,7 @@ function ServiceCarousel() {
       <button
         onClick={prev}
         style={{
-          position: "absolute", left: "-24px", top: "45%", transform: "translateY(-50%)",
+          position: "absolute", left: "-12px", top: "45%", transform: "translateY(-50%)",
           zIndex: 10, background: "#fff", border: "none", borderRadius: "50%",
           width: "40px", height: "40px", cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -173,7 +190,12 @@ function ServiceCarousel() {
       </button>
 
       {/* Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${VISIBLE}, 1fr)`, gap: "16px" }}>
+      <div style={{ 
+        display: "grid", 
+        gridTemplateColumns: `repeat(${visibleCards}, 1fr)`, 
+        gap: "16px",
+        padding: "0 10px" // Add some padding for mobile
+      }}>
         {indices.map((idx, pos) => {
           const { Icon, title, desc } = topServices[idx];
           return (
@@ -202,7 +224,7 @@ function ServiceCarousel() {
       <button
         onClick={next}
         style={{
-          position: "absolute", right: "-24px", top: "45%", transform: "translateY(-50%)",
+          position: "absolute", right: "-12px", top: "45%", transform: "translateY(-50%)",
           zIndex: 10, background: "#fff", border: "none", borderRadius: "50%",
           width: "40px", height: "40px", cursor: "pointer",
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -234,6 +256,15 @@ function ServiceCarousel() {
         @keyframes fadeSlide {
           from { opacity: 0; transform: translateX(16px); }
           to   { opacity: 1; transform: translateX(0); }
+        }
+        
+        @media (max-width: 768px) {
+          button[style*="left:"] {
+            left: -8px !important;
+          }
+          button[style*="right:"] {
+            right: -8px !important;
+          }
         }
       `}</style>
     </div>
@@ -345,10 +376,10 @@ function NewGenerationSection({ stats }: { stats: StatItem[] }) {
 
           {/* ── Right: text content ── */}
           <div className="new-gen-text" style={{ flex: "1 1 320px", minWidth: 0, padding: "48px 44px" }}>
-            <h2 style={{ fontSize: "2rem", fontWeight: "800", marginBottom: "14px", lineHeight: 1.25, color: "#0d2b3e" }}>
+            <h2 style={{ fontSize: "clamp(1.5rem, 5vw, 2rem)", fontWeight: "800", marginBottom: "14px", lineHeight: 1.25, color: "#0d2b3e" }}>
               The New Generation of Cleaning<br />and Restoration
             </h2>
-            <p style={{ color: "#6b7280", fontSize: "1.3rem", lineHeight: 1.8, marginBottom: "28px" }}>
+            <p style={{ color: "#6b7280", fontSize: "clamp(1rem, 3vw, 1.3rem)", lineHeight: 1.8, marginBottom: "28px" }}>
               World's leading non-asset-based supply chain management companies, we
               design and implement industry-leading. We specialise in intelligent &amp; effective
               search and believes in the power of partnerships to grow business…
@@ -362,7 +393,7 @@ function NewGenerationSection({ stats }: { stats: StatItem[] }) {
                 "Tradition of trust",
                 "Sustainable trade",
               ].map((label) => (
-                <div key={label} style={{ display: "flex", alignItems: "center", gap: "8px", color: "#374151", fontSize: "1.3rem", fontWeight: "500" }}>
+                <div key={label} style={{ display: "flex", alignItems: "center", gap: "8px", color: "#374151", fontSize: "clamp(0.9rem, 2.5vw, 1.3rem)", fontWeight: "500" }}>
                   <CheckCircle2 size={15} color={TEAL} style={{ flexShrink: 0 }} />
                   {label}
                 </div>
@@ -385,8 +416,8 @@ function NewGenerationSection({ stats }: { stats: StatItem[] }) {
                     <Icon size={20} color={TEAL} />
                   </div>
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontWeight: "700", fontSize: "0.9rem", color: "#0d2b3e", marginBottom: "5px" }}>{label}</p>
-                    <p style={{ fontSize: "0.775rem", color: "#6b7280", lineHeight: 1.55, margin: 0 }}>{sub}</p>
+                    <p style={{ fontWeight: "700", fontSize: "clamp(0.8rem, 2vw, 0.9rem)", color: "#0d2b3e", marginBottom: "5px" }}>{label}</p>
+                    <p style={{ fontSize: "clamp(0.7rem, 1.8vw, 0.775rem)", color: "#6b7280", lineHeight: 1.55, margin: 0 }}>{sub}</p>
                   </div>
                 </div>
               ))}

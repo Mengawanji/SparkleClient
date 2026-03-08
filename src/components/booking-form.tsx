@@ -362,30 +362,38 @@ export function BookingForm() {
               <SectionCard iconPath={icons.calendar} title="Scheduling">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">Preferred date</label>
-                    <div className="relative">
-                      <FieldIcon iconPath={icons.calendar} />
-                      <input
-                        type="date"
-                        {...register('preferredDate')}
-                        min={new Date().toISOString().split('T')[0]}
-                        className={inp(!!errors.preferredDate)}
-                      />
-                    </div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">
+                      Preferred date
+                    </label>
+                    <input
+                      type="date"
+                      {...register('preferredDate')}
+                      min={new Date().toISOString().split('T')[0]}
+                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white
+                        focus:outline-none focus:ring-2 transition
+                        ${errors.preferredDate
+                          ? 'border-red-400 focus:ring-red-300'
+                          : 'border-gray-200 focus:ring-[#3B4FCC]/20'
+                        }`}
+                    />
                     {errors.preferredDate && (
                       <p className="text-xs text-red-500 mt-1">{errors.preferredDate.message}</p>
                     )}
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">Preferred time</label>
-                    <div className="relative">
-                      <FieldIcon iconPath={icons.clock} />
-                      <input
-                        type="time"
-                        {...register('preferredTime')}
-                        className={inp(!!errors.preferredTime)}
-                      />
-                    </div>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">
+                      Preferred time
+                    </label>
+                    <input
+                      type="time"
+                      {...register('preferredTime')}
+                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white
+                        focus:outline-none focus:ring-2 transition
+                        ${errors.preferredTime
+                          ? 'border-red-400 focus:ring-red-300'
+                          : 'border-gray-200 focus:ring-[#3B4FCC]/20'
+                        }`}
+                    />
                     {errors.preferredTime && (
                       <p className="text-xs text-red-500 mt-1">{errors.preferredTime.message}</p>
                     )}
