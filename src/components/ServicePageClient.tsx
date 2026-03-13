@@ -77,7 +77,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
 
           <div className="flex flex-wrap gap-4 mt-10">
             <Link
-              href="/contact"
+              href="/book"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm bg-white transition-all hover:scale-105 hover:shadow-xl"
               style={{ color: service.accentColor }}
             >
@@ -85,7 +85,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
               Book This Service
             </Link>
             <a
-              href="tel:+1234567890"
+              href="tel:+15195771711"
               className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm border-2 border-white/40 text-white hover:border-white transition-all"
             >
               <Phone size={16} />
@@ -276,7 +276,7 @@ export default function ServicePageClient({ service }: { service: Service }) {
             Book your {service.title.toLowerCase()} today and experience the Sandy's Sparkle Touch difference.
           </p>
           <Link
-            href="/contact"
+            href="/book"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm bg-white transition-all hover:scale-105 hover:shadow-2xl"
             style={{ color: service.accentColor }}
           >

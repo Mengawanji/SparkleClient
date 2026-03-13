@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 // ── Logo (same default as Navbar) ────────────────────────────────────────
 function FooterLogo() {
@@ -132,6 +133,120 @@ const columns = [
   },
 ];
 
+// ── Newsletter form ───────────────────────────────────────────────────────
+type SubscribeState = 'idle' | 'loading' | 'success' | 'error' | 'duplicate';
+
+function NewsletterForm() {
+  const [email, setEmail] = useState('');
+  const [state, setState] = useState<SubscribeState>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+
+    setState('loading');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8081'}/subscribe`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.trim() }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setState('success');
+        setEmail('');
+      } else if (res.status === 409) {
+        setState('duplicate');
+      } else {
+        const msg =
+          Array.isArray(data?.message) ? data.message[0] : data?.message;
+        setErrorMsg(msg ?? 'Something went wrong. Please try again.');
+        setState('error');
+      }
+    } catch {
+      setErrorMsg('Unable to reach the server. Please try again later.');
+      setState('error');
+    }
+  };
+
+  if (state === 'success') {
+    return (
+      <div className="flex items-start gap-3 bg-white/10 border border-white/20 rounded-2xl px-5 py-4 max-w-sm w-full">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="mt-0.5 shrink-0" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+        <div>
+          <p className="text-white font-semibold" style={{ fontSize: '0.95rem' }}>You're in! 🎉</p>
+          <p className="text-white/55" style={{ fontSize: '0.83rem' }}>Check your inbox for a welcome email from us.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-sm w-full">
+      <p className="text-white font-semibold mb-1" style={{ fontSize: '1rem' }}>Stay in the loop</p>
+      <p className="text-white/50 mb-3" style={{ fontSize: '0.88rem' }}>Get cleaning tips, promos & updates.</p>
+
+      <form className="flex gap-2" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (state !== 'idle') setState('idle');
+          }}
+          placeholder="your@email.com"
+          disabled={state === 'loading'}
+          className="flex-1 min-w-0 rounded-xl px-4 bg-white/10 border border-white/20 text-white placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-[#6675e0] transition disabled:opacity-60"
+          style={{ fontSize: '0.95rem', height: '2.75rem' }}
+        />
+        <button
+          type="submit"
+          disabled={state === 'loading' || !email.trim()}
+          className="shrink-0 bg-[#3B4FCC] hover:bg-[#2f42b8] disabled:opacity-90 disabled:cursor-not-allowed text-white font-semibold rounded-xl px-5 transition-colors flex items-center gap-2"
+          style={{ fontSize: '0.9rem', height: '2.75rem' }}
+        >
+          {state === 'loading' ? (
+            <>
+              <svg className="animate-spin" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+              </svg>
+              <span>Subscribing…</span>
+            </>
+          ) : (
+            'Subscribe'
+          )}
+        </button>
+      </form>
+
+      {/* Inline feedback */}
+      {state === 'duplicate' && (
+        <p className="mt-2 text-yellow-300/80" style={{ fontSize: '0.8rem' }}>
+          ✉️ This email is already subscribed — you're all set!
+        </p>
+      )}
+      {state === 'error' && (
+        <p className="mt-2 text-red-400/90" style={{ fontSize: '0.8rem' }}>
+          ⚠️ {errorMsg}
+        </p>
+      )}
+      {state === 'idle' || state === 'loading' ? (
+        <p className="text-white/30 mt-2" style={{ fontSize: '0.78rem' }}>No spam, ever. Unsubscribe anytime.</p>
+      ) : null}
+    </div>
+  );
+}
+
 // ── Main Footer ──────────────────────────────────────────────────────────
 export function Footer() {
   return (
@@ -177,26 +292,7 @@ export function Footer() {
             </div>
 
             {/* Newsletter */}
-            <div className="max-w-sm w-full">
-              <p className="text-white font-semibold mb-1" style={{ fontSize: '1rem' }}>Stay in the loop</p>
-              <p className="text-white/50 mb-3" style={{ fontSize: '0.88rem' }}>Get cleaning tips, promos & updates.</p>
-              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="flex-1 min-w-0 rounded-xl px-4 bg-white/10 border border-white/20 text-white placeholder-white/35 focus:outline-none focus:ring-2 focus:ring-[#6675e0] transition"
-                  style={{ fontSize: '0.95rem', height: '2.75rem' }}
-                />
-                <button
-                  type="submit"
-                  className="shrink-0 bg-[#3B4FCC] hover:bg-[#2f42b8] text-white font-semibold rounded-xl px-5 transition-colors"
-                  style={{ fontSize: '0.9rem', height: '2.75rem' }}
-                >
-                  Subscribe
-                </button>
-              </form>
-              <p className="text-white/30 mt-2" style={{ fontSize: '0.78rem' }}>No spam, ever. Unsubscribe anytime.</p>
-            </div>
+            <NewsletterForm />
           </div>
 
           {/* Link columns */}
