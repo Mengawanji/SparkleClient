@@ -96,7 +96,8 @@ function SectionCard({
         </span>
         <h2 className="text-sm font-semibold text-gray-800">{title}</h2>
       </div>
-      <div className="px-5 py-4 space-y-4">{children}</div>
+      {/* FIX 3: added overflow-hidden to prevent any child element from breaking out */}
+      <div className="px-5 py-4 space-y-4 overflow-hidden">{children}</div>
     </div>
   );
 }
@@ -199,7 +200,8 @@ export function BookingForm() {
         />
 
         {/* ── Page content ── */}
-        <div className="relative z-10 py-10 px-4 sm:px-6 lg:px-8">
+        {/* FIX 1: added overflow-x-hidden and w-full to prevent horizontal viewport overflow on mobile */}
+        <div className="relative z-10 py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden w-full">
 
           {/* Header — same max-width as nav/footer */}
           <div className="max-w-7xl mx-auto mb-8">
@@ -219,7 +221,7 @@ export function BookingForm() {
             className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start"
           >
             {/* ── LEFT COLUMN ── */}
-            <div className="space-y-5">
+            <div className="space-y-5 min-w-0">
 
               {/* Personal Information */}
               <SectionCard iconPath={icons.user} title="Personal Information">
@@ -404,11 +406,12 @@ export function BookingForm() {
               {/* Special Requests */}
               <SectionCard iconPath={icons.pencil} title="Special Requests or Notes">
                 <div>
+                  {/* FIX 2: added max-w-full and box-border to textarea so it never exceeds its container width on mobile */}
                   <Textarea
                     {...register('additionalNotes')}
                     placeholder="Let us know if you have any special requirements, areas to focus on, access instructions..."
                     rows={4}
-                    className={`text-sm rounded-xl border resize-none w-full p-3 focus:outline-none focus:ring-2 transition ${
+                    className={`text-sm rounded-xl border resize-none w-full max-w-full p-3 focus:outline-none focus:ring-2 transition box-border ${
                       errors.additionalNotes || charsRemaining < 0
                         ? 'border-red-400 focus:ring-red-200'
                         : 'border-gray-200 focus:ring-[#3B4FCC]/20'
@@ -439,7 +442,7 @@ export function BookingForm() {
             </div>
 
             {/* ── RIGHT COLUMN (sticky price + CTA) ── */}
-            <div className="lg:sticky lg:top-6 space-y-4">
+            <div className="lg:sticky lg:top-6 space-y-4 min-w-0">
 
               {showPriceCalculator && (
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
