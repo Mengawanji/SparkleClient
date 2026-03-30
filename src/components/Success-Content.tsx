@@ -315,7 +315,7 @@ export default function SuccessContent() {
             <div className="booking-id-box">
               <div className="booking-id-left">
                 <span className="booking-id-label">Booking Reference</span>
-                <span className="booking-id-value">{bookingId}</span>
+                <span className="booking-id-value">{bookingId.slice(0, 13)}</span>
               </div>
               <button className={`copy-btn${copied ? ' copied' : ''}`} onClick={handleCopy}>
                 {copied ? (

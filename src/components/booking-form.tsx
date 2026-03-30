@@ -96,7 +96,6 @@ function SectionCard({
         </span>
         <h2 className="text-sm font-semibold text-gray-800">{title}</h2>
       </div>
-      {/* FIX 3: added overflow-hidden to prevent any child element from breaking out */}
       <div className="px-5 py-4 space-y-4 overflow-hidden">{children}</div>
     </div>
   );
@@ -198,14 +197,8 @@ export function BookingForm() {
             zIndex: 0,
           }}
         />
-
-        {/* ── Page content ── */}
-        {/* FIX 1: added overflow-x-hidden and w-full to prevent horizontal viewport overflow on mobile */}
         <div className="relative z-10 py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden w-full">
-
-          {/* Header — same max-width as nav/footer */}
           <div className="max-w-7xl mx-auto mb-8">
-            {/* Eyebrow */}
             <p className="text-xs font-semibold tracking-widest text-[#3B4FCC] uppercase mb-2 flex items-center gap-1.5">
               <Icon d={icons.sparkle} size={12} />
               Professional Cleaning Services
@@ -214,13 +207,10 @@ export function BookingForm() {
               Schedule With Us
             </h1>
           </div>
-
-          {/* ── Form grid — matches max-w-7xl ── */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start"
           >
-            {/* ── LEFT COLUMN ── */}
             <div className="space-y-5 min-w-0">
 
               {/* Personal Information */}
@@ -406,7 +396,6 @@ export function BookingForm() {
               {/* Special Requests */}
               <SectionCard iconPath={icons.pencil} title="Special Requests or Notes">
                 <div>
-                  {/* FIX 2: added max-w-full and box-border to textarea so it never exceeds its container width on mobile */}
                   <Textarea
                     {...register('additionalNotes')}
                     placeholder="Let us know if you have any special requirements, areas to focus on, access instructions..."
@@ -422,7 +411,7 @@ export function BookingForm() {
                   )}
                   <div className="flex justify-between items-start mt-1.5">
                     <p className="text-xs text-[#3B4FCC]">
-                      Examples: focus on kitchen, need to use service entrance, allergic to certain products.
+                      Examples: focus on kitchen, allergic to certain products.
                     </p>
                     <p className={`text-xs tabular-nums shrink-0 ml-4 ${
                       charsRemaining < 0 ? 'text-red-500 font-medium' :
