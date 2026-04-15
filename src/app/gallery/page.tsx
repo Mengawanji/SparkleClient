@@ -3,37 +3,40 @@
 import { useState, useEffect } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type Category = "All" | "House Cleaning" | "Kitchen Cleaning" | "Office Cleaning" | "Carpet Cleaning" | "Window Cleaning" | "Bathroom Cleaning";
+type Category = "All" | "House Cleaning" | "Kitchen Cleaning" | "Bedroom Cleaning" | "Window Cleaning" | "Bathroom Cleaning";
 
 interface GalleryImage {
   id: number;
-  src: string;       // Replace with your Cloudinary URLs
+  src: string;
   alt: string;
   category: Category;
   span?: "wide" | "tall" | "normal"; // controls masonry sizing
 }
 
 // ─── Gallery Data ─────────────────────────────────────────────────────────────
-// 🔁 Replace each `src` with your Cloudinary image URL
-// e.g. "https://res.cloudinary.com/YOUR_CLOUD/image/upload/v123/gallery/kitchen-1.jpg"
+
 const GALLERY_IMAGES: GalleryImage[] = [
-  { id: 1,  src: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800", alt: "Spotless kitchen counters after deep clean",   category: "Kitchen Cleaning",  span: "wide"   },
-  { id: 2,  src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800", alt: "Bright living room after house cleaning",        category: "House Cleaning",    span: "tall"   },
-  { id: 3,  src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800", alt: "Gleaming office space",                            category: "Office Cleaning",   span: "normal" },
-  { id: 4,  src: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800", alt: "Freshly cleaned bathroom tiles",                 category: "Bathroom Cleaning", span: "normal" },
-  { id: 5,  src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800", alt: "Crystal clear windows after cleaning",             category: "Window Cleaning",   span: "wide"   },
-  { id: 6,  src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800", alt: "Deep cleaned carpet — stains removed",           category: "Carpet Cleaning",   span: "normal" },
-  { id: 7,  src: "https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=800", alt: "Sanitized kitchen appliances",                     category: "Kitchen Cleaning",  span: "normal" },
-  { id: 8,  src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800", alt: "Polished hardwood floors",                       category: "House Cleaning",    span: "normal" },
-  { id: 9,  src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800", alt: "Professional office cleaning results",           category: "Office Cleaning",   span: "tall"   },
-  { id: 10, src: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800", alt: "Sparkling clean bathroom",                       category: "Bathroom Cleaning", span: "wide"   },
-  { id: 11, src: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800", alt: "Streak-free window cleaning",                    category: "Window Cleaning",   span: "normal" },
-  { id: 12, src: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800", alt: "Revived carpet after treatment",                   category: "Carpet Cleaning",   span: "normal" },
+  { id: 1,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775039/photo_2026-04-09_23-05-00_sej18f.jpg", alt: "Clean, spotless kitchen surfaces",          category: "Kitchen Cleaning",  span: "wide"   },
+  { id: 2,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775034/photo_2026-04-09_23-04-49_ruhpvv.jpg", alt: "Bright living room after house cleaning",   category: "House Cleaning",    span: "tall"   },
+  { id: 3,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775034/photo_2026-04-09_23-04-14_fyjk3r.jpg", alt: "Bright living room after house cleaning",   category: "House Cleaning",    span: "tall"   },
+  { id: 4,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775035/photo_2026-04-09_23-04-55_tdn79v.jpg", alt: "Sparkling living room",                     category: "House Cleaning",    span: "normal" },
+  { id: 5,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775033/photo_2026-02-21_21-29-08_2_kfj0kq.jpg", alt: "Organized shoe storage closet space",     category: "Bathroom Cleaning", span: "normal" },
+  { id: 6,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775031/photo_2026-02-21_21-29-08_q1aa3j.jpg", alt: "Clean, well-lit corridor walkway",          category: "House Cleaning",   span: "wide"   },
+  { id: 7,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775030/photo_2026-02-21_21-29-07_2_pgeduw.jpg", alt: "Clean, well-lit empty room",              category: "Bedroom Cleaning",   span: "normal" },
+  { id: 8,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775014/photo_2026-02-21_21-27-51_cigcbh.jpg", alt: "Polished hardwood floors",                  category: "House Cleaning",    span: "normal" },
+  { id: 9,  src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775015/photo_2026-02-21_21-27-51_2_kueaq7.jpg", alt: "Polished hardwood floors",                category: "House Cleaning",    span: "normal" },
+  { id: 10, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775013/photo_2026-02-21_18-45-13_2_rceiu2.jpg", alt: "Freshly cleaned bedroom space",           category: "Bedroom Cleaning",   span: "tall"   },
+  { id: 11, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775013/photo_2026-02-21_18-45-13_ldg4fz.jpg", alt: "Freshly cleaned bedroom space",             category: "Bedroom Cleaning",   span: "tall"   },
+  { id: 12, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775012/photo_2026-02-21_18-45-12_jazigm.jpg", alt: "Freshly cleaned bedroom space",             category: "Bedroom Cleaning",   span: "tall"   },   
+  { id: 13, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775009/photo_2026-02-21_18-45-11_2_upstrn.jpg", alt: "Organized shoe storage closet space",     category: "House Cleaning", span: "normal" },
+  { id: 14, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775007/photo_2026-02-21_18-40-44_rmrfxk.jpg", alt: "Organized shoe storage closet space",       category: "Bathroom Cleaning", span: "normal" },
+  { id: 15, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775003/photo_2026-02-21_18-40-42_ty6cp2.jpg", alt: "Organized shoe storage closet space",       category: "Bathroom Cleaning", span: "normal" },
+  { id: 16, src: "https://res.cloudinary.com/drda6i3w6/image/upload/v1775775008/photo_2026-02-21_18-45-10_hf80hs.jpg", alt: "Organized shoe storage closet space",       category: "Bathroom Cleaning", span: "normal" },
 ];
 
 const CATEGORIES: Category[] = [
-  "All", "House Cleaning", "Kitchen Cleaning", "Office Cleaning",
-  "Carpet Cleaning", "Window Cleaning", "Bathroom Cleaning",
+  "All", "House Cleaning", "Kitchen Cleaning", "Bedroom Cleaning",
+  "Window Cleaning", "Bathroom Cleaning",
 ];
 
 // ─── Component ────────────────────────────────────────────────────────────────
