@@ -103,7 +103,7 @@ export default function ContactPage() {
         * { box-sizing: border-box; }
 
         @keyframes con-fadeUp {
-          from { opacity: 0; transform: translateY(24px); }
+          from { opacity: 0; transform: translateY(28px); }
           to   { opacity: 1; transform: translateY(0); }
         }
         @keyframes con-pulse {
@@ -116,12 +116,36 @@ export default function ContactPage() {
         }
         @keyframes con-spin { to { transform: rotate(360deg); } }
 
-        .con-fade { animation: con-fadeUp 0.6s ease both; }
-        .con-d1   { animation-delay: 0.05s; }
-        .con-d2   { animation-delay: 0.15s; }
-        .con-d3   { animation-delay: 0.25s; }
-        .con-d4   { animation-delay: 0.38s; }
+        .con-fade { animation: con-fadeUp 0.7s ease both; }
+        .con-d1   { animation-delay: 0.05s; opacity: 0; }
+        .con-d2   { animation-delay: 0.18s; opacity: 0; }
+        .con-d3   { animation-delay: 0.30s; opacity: 0; }
+        .con-d4   { animation-delay: 0.42s; opacity: 0; }
+        .con-d5   { animation-delay: 0.54s; opacity: 0; }
         .con-spin { animation: con-spin 0.8s linear infinite; }
+
+        .con-cta-btn {
+          background: linear-gradient(90deg, #3B4FCC, #5a6be0, #3B4FCC);
+          background-size: 200% auto; animation: con-shimmer 4s linear infinite;
+          color: white; border: none; border-radius: 14px;
+          padding: 15px 36px; font-size: 1.05rem; font-weight: 700;
+          font-family: 'Poppins', sans-serif; cursor: pointer;
+          display: inline-flex; align-items: center; gap: 10px;
+          text-decoration: none;
+          transition: transform 0.15s ease, box-shadow 0.15s ease;
+          box-shadow: 0 6px 24px rgba(59,79,204,0.35);
+        }
+        .con-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(59,79,204,0.45); }
+
+        .con-outline-btn {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: transparent; color: white;
+          border: 2px solid rgba(255,255,255,0.35); border-radius: 14px;
+          padding: 13px 30px; font-size: 1.05rem; font-weight: 600;
+          font-family: 'Poppins', sans-serif; text-decoration: none;
+          transition: all 0.2s;
+        }
+        .con-outline-btn:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.6); }
 
         .info-card {
           background: #fff; border-radius: 22px; border: 1.5px solid #eaecf5;
@@ -185,29 +209,75 @@ export default function ContactPage() {
       <main style={{ fontFamily: 'Poppins, sans-serif', background: 'linear-gradient(175deg, #f0f2ff 0%, #f8f9ff 50%, #eef0fb 100%)' }}>
 
         {/* ══ HERO ══ */}
-        <section style={{ position: 'relative', overflow: 'hidden', minHeight: '520px', display: 'flex', alignItems: 'center', padding: '100px 0 90px' }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url('YOUR_IMAGE_URL_HERE')`, backgroundSize: 'cover', backgroundPosition: 'center', zIndex: 0, backgroundColor: '#0d1340' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(110deg, rgba(13,19,64,0.88) 0%, rgba(30,42,128,0.72) 55%, rgba(13,19,64,0.60) 100%)', zIndex: 1 }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.45) 100%)', zIndex: 2, pointerEvents: 'none' }} />
-          {[[12,18],[85,45],[25,70],[70,20],[50,80]].map(([left, top], i) => (
-            <div key={i} style={{ position: 'absolute', width: 7, height: 7, borderRadius: '50%', background: '#818cf8', opacity: 0.3, left: `${left}%`, top: `${top}%`, animation: `con-pulse ${2.5 + i * 0.4}s ease-in-out infinite`, animationDelay: `${i * 0.3}s`, zIndex: 3, pointerEvents: 'none' }} />
+        <section style={{ position: 'relative', overflow: 'hidden', minHeight: '580px', display: 'flex', alignItems: 'center', padding: '110px 0 100px' }}>
+
+          {/* Background — gallery House Cleaning photo */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `url('https://res.cloudinary.com/drda6i3w6/image/upload/v1775775034/photo_2026-04-09_23-04-49_ruhpvv.jpg')`,
+            backgroundSize: 'cover', backgroundPosition: 'center 40%',
+            backgroundRepeat: 'no-repeat', zIndex: 0,
+          }} />
+
+          {/* Blue tint overlay — same as About page */}
+          <div style={{
+            position: 'absolute', inset: 0,
+            background: 'linear-gradient(110deg, rgba(50,72,200,0.62) 0%, rgba(80,100,215,0.55) 48%, rgba(110,95,190,0.48) 100%)',
+            zIndex: 1,
+          }} />
+
+          {/* Decorative rings */}
+          <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: 480, height: 480, borderRadius: '50%', border: '80px solid rgba(59,79,204,0.12)', zIndex: 2, pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: 360, height: 360, borderRadius: '50%', border: '60px solid rgba(129,140,248,0.08)', zIndex: 2, pointerEvents: 'none' }} />
+
+          {/* Floating accent dots */}
+          {[[8,15],[88,40],[20,75],[75,18],[55,82],[40,50]].map(([left, top], i) => (
+            <div key={i} style={{
+              position: 'absolute', width: i % 2 === 0 ? 7 : 5, height: i % 2 === 0 ? 7 : 5,
+              borderRadius: '50%', background: '#818cf8', opacity: 0.28,
+              left: `${left}%`, top: `${top}%`,
+              animation: `con-pulse ${2.5 + i * 0.35}s ease-in-out infinite`,
+              animationDelay: `${i * 0.25}s`, zIndex: 3, pointerEvents: 'none',
+            }} />
           ))}
-          <div style={{ position: 'relative', zIndex: 4, maxWidth: 1400, margin: '0 auto', padding: '0 24px', textAlign: 'center', width: '100%' }}>
-            <div className="con-fade con-d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.20)', backdropFilter: 'blur(6px)', borderRadius: 999, padding: '7px 20px', marginBottom: 24 }}>
-              <Radio size={12} color="#818cf8" strokeWidth={2.5} style={{ animation: 'con-pulse 2s ease-in-out infinite' }} />
-              <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255,255,255,0.80)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Get In Touch</span>
-            </div>
-            <h1 className="con-fade con-d2 hero-h1" style={{ fontSize: '3.4rem', fontWeight: 900, color: 'white', lineHeight: 1.1, marginBottom: 20, textShadow: '0 2px 24px rgba(0,0,0,0.35)' }}>
-              We'd Love to<br />
-              <span style={{ background: 'linear-gradient(90deg, #a5b4fc, #c7d0f8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Hear From You</span>
-            </h1>
-            <p className="con-fade con-d3" style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.75)', maxWidth: 480, margin: '0 auto 32px', lineHeight: 1.8, textShadow: '0 1px 8px rgba(0,0,0,0.3)' }}>
-              Questions, quotes, or feedback — our team is ready to respond within 2 business hours.
-            </p>
-            <div className="con-fade con-d3" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)' }}>
-              <a href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</a>
-              <ChevronDown size={12} color="rgba(255,255,255,0.4)" style={{ transform: 'rotate(-90deg)' }} />
-              <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>Contact Us</span>
+
+          {/* Content — left-aligned, matching About page layout */}
+          <div style={{ position: 'relative', zIndex: 4, maxWidth: 1400, margin: '0 auto', padding: '0 24px', width: '100%' }}>
+            <div style={{ maxWidth: 700 }}>
+
+              {/* Breadcrumb */}
+              <div className="con-fade con-d1" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginBottom: 20 }}>
+                <a href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>Home</a>
+                <ChevronDown size={13} color="rgba(255,255,255,0.4)" strokeWidth={2} style={{ transform: 'rotate(-90deg)' }} />
+                <span style={{ color: 'rgba(255,255,255,0.85)', fontWeight: 600 }}>Contact Us</span>
+              </div>
+
+              {/* Eyebrow pill */}
+              <div className="con-fade con-d1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.20)', backdropFilter: 'blur(6px)', borderRadius: 999, padding: '7px 20px', marginBottom: 24 }}>
+                <Radio size={12} color="#818cf8" strokeWidth={2.5} style={{ animation: 'con-pulse 2s ease-in-out infinite' }} />
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'rgba(255,255,255,0.80)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>Get In Touch</span>
+              </div>
+
+              <h1 className="con-fade con-d2 hero-h1" style={{ fontSize: 'clamp(2.4rem,5vw,3.8rem)', fontWeight: 900, color: 'white', lineHeight: 1.1, marginBottom: 22, textShadow: '0 2px 24px rgba(0,0,0,0.4)' }}>
+                We'd Love to<br />
+                <span style={{ background: 'linear-gradient(90deg,#a5b4fc,#c7d0f8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  Hear From You
+                </span>
+              </h1>
+
+              <p className="con-fade con-d3" style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.78)', lineHeight: 1.82, marginBottom: 36, textShadow: '0 1px 8px rgba(0,0,0,0.3)', maxWidth: 580 }}>
+                Questions, quotes, or custom schedules — reach our team and we'll craft the perfect clean for your space.
+              </p>
+
+              <div className="con-fade con-d4" style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                <a href="#contact-form" className="con-cta-btn">
+                  Send a Message <ArrowRight size={16} strokeWidth={2.5} />
+                </a>
+                <a href="tel:5195771711" className="con-outline-btn">
+                  <Phone size={16} strokeWidth={2} /> 519 577 1711
+                </a>
+              </div>
+
             </div>
           </div>
         </section>
@@ -246,7 +316,7 @@ export default function ContactPage() {
         </section>
 
         {/* ══ FORM + IMAGE ══ */}
-        <section style={{ maxWidth: 1400, margin: '40px auto 80px', padding: '0 24px' }}>
+        <section id="contact-form" style={{ maxWidth: 1400, margin: '40px auto 80px', padding: '0 24px' }}>
           <div className="form-image-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderRadius: 32, overflow: 'hidden', boxShadow: '0 32px 80px rgba(59,79,204,0.12)', border: '1.5px solid #e8eaf0' }}>
 
             {/* FORM SIDE */}

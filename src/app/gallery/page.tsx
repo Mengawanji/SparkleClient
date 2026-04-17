@@ -81,27 +81,22 @@ export default function GalleryPage() {
 
         /* Hero */
         .gallery-hero {
-          background: linear-gradient(135deg, #1a3c8f 0%, #2b5ce6 60%, #4f8ef7 100%);
+          background: linear-gradient(160deg, #EEF2FF 0%, #f8f9ff 45%, #e8edff 100%);
           padding: 80px 24px 70px;
           text-align: center;
           position: relative;
           overflow: hidden;
         }
-        .gallery-hero::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: radial-gradient(ellipse at 70% 50%, rgba(255,255,255,.08) 0%, transparent 70%);
-        }
         .gallery-hero__eyebrow {
           font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
-          color: rgba(255,255,255,.7); margin-bottom: 14px;
+          color: #3B4FCC; margin-bottom: 14px;
         }
         .gallery-hero__title {
           font-family: 'Poppins', sans-serif;
           font-size: clamp(2.2rem, 5vw, 3.4rem);
-          color: #fff; margin: 0 0 16px; font-weight: 600; line-height: 1.15;
+          color: #0d1340; margin: 0 0 16px; font-weight: 700; line-height: 1.15;
         }
-        .gallery-hero__sub { color: rgba(255,255,255,.75); max-width: 500px; margin: 0 auto; line-height: 1.6; font-size: 15px; }
+        .gallery-hero__sub { color: #6B7280; max-width: 500px; margin: 0 auto; line-height: 1.6; font-size: 15px; }
 
         /* Filters */
         .gallery-filters {
@@ -228,9 +223,24 @@ export default function GalleryPage() {
 
         {/* Hero */}
         <div className="gallery-hero">
-          <p className="gallery-hero__eyebrow">Sandy's Cleaning Service</p>
-          <h1 className="gallery-hero__title">Our Work Speaks<br />For Itself</h1>
-          <p className="gallery-hero__sub">Browse through real results from our professional cleaning jobs — every home left spotless.</p>
+          {/* Decorative rings */}
+          <div style={{ position:'absolute', top:'-120px', right:'-120px', width:500, height:500, borderRadius:'50%', border:'70px solid rgba(59,79,204,0.05)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', bottom:'-80px', left:'-80px', width:380, height:380, borderRadius:'50%', border:'55px solid rgba(59,79,204,0.04)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', top:'40%', left:'-60px', width:240, height:240, borderRadius:'50%', border:'30px solid rgba(129,140,248,0.06)', pointerEvents:'none' }} />
+          {/* Floating particles */}
+          {[
+            { w:10, h:10, top:'8%',  left:'6%',  bg:'#3B4FCC', op:0.12 },
+            { w:6,  h:6,  top:'20%', left:'91%', bg:'#818cf8', op:0.18 },
+            { w:8,  h:8,  top:'75%', left:'5%',  bg:'#c7d0f8', op:0.22 },
+            { w:12, h:12, top:'85%', left:'88%', bg:'#3B4FCC', op:0.10 },
+          ].map((p, i) => (
+            <div key={i} style={{ position:'absolute', borderRadius:'50%', pointerEvents:'none', width:p.w, height:p.h, top:p.top, left:p.left, background:p.bg, opacity:p.op }} />
+          ))}
+          <div style={{ position:'relative', zIndex:2 }}>
+            <p className="gallery-hero__eyebrow">Sandy's Cleaning Service</p>
+            <h1 className="gallery-hero__title">Our Work Speaks<br />For Itself</h1>
+            <p className="gallery-hero__sub">Browse through real results from our professional cleaning jobs — every home left spotless.</p>
+          </div>
         </div>
 
         {/* Filters */}

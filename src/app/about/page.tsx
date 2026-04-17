@@ -226,7 +226,7 @@ export default function AboutPage() {
           {/* ── Background: real home cleaning photo from Unsplash ── */}
           <div style={{
             position:'absolute', inset:0,
-            backgroundImage:`url('https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1800&q=85&fit=crop&crop=center')`,
+            backgroundImage:`url('https://res.cloudinary.com/drda6i3w6/image/upload/v1775775035/photo_2026-04-09_23-04-55_tdn79v.jpg')`,
             backgroundSize:'cover',
             backgroundPosition:'center 40%',
             backgroundRepeat:'no-repeat',
