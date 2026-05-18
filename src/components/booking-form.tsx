@@ -22,7 +22,6 @@ import { PriceCalculator } from './price-calculator';
 
 const MAX_NOTES = 250;
 
-// ── inline SVG icon ────────────────────────────────────────────────────────
 function Icon({ d, size = 16 }: { d: string; size?: number }) {
   return (
     <svg
@@ -61,7 +60,6 @@ const icons = {
   sparkle:  'M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5z',
 };
 
-// ── field icon ─────────────────────────────────────────────────────────────
 function FieldIcon({ iconPath }: { iconPath: string }) {
   return (
     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[#3B4FCC] pointer-events-none">
@@ -78,7 +76,6 @@ function CheckIcon() {
   );
 }
 
-// ── section card ───────────────────────────────────────────────────────────
 function SectionCard({
   iconPath,
   title,
@@ -101,7 +98,6 @@ function SectionCard({
   );
 }
 
-// ── main component ─────────────────────────────────────────────────────────
 export function BookingForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -114,7 +110,7 @@ export function BookingForm() {
     watch,
     formState: { errors },
   } = useForm<z.input<typeof bookingSchema>>({
-  resolver: zodResolver(bookingSchema),
+    resolver: zodResolver(bookingSchema),
     defaultValues: {
       numberOfBedrooms: 2,
       numberOfBathrooms: 1,
@@ -126,11 +122,9 @@ export function BookingForm() {
   const additionalNotes = watch('additionalNotes') ?? '';
   const charsUsed = additionalNotes.length;
   const charsRemaining = MAX_NOTES - charsUsed;
-
   const showPriceCalculator =
-    watchedValues.cleaningType &&
-    watchedValues.numberOfBedrooms >= 0 &&
-    watchedValues.numberOfBathrooms >= 1;
+    !!watchedValues.cleaningType &&
+    watchedValues.numberOfBedrooms >= 0;
 
   const onSubmit: SubmitHandler<z.input<typeof bookingSchema>> = async (data) => {
     setIsSubmitting(true);
@@ -161,42 +155,15 @@ export function BookingForm() {
 
   return (
     <>
-      {/* ── Background ── */}
       <div
         className="min-h-screen relative"
         style={{
           background: 'linear-gradient(160deg, #EEF2FF 0%, #f8f9ff 40%, #f0f4f8 100%)',
         }}
       >
-        {/* Decorative blobs */}
-        <div
-          aria-hidden
-          style={{
-            position: 'fixed',
-            top: '-120px',
-            right: '-120px',
-            width: '480px',
-            height: '480px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(59,79,204,0.08) 0%, transparent 70%)',
-            pointerEvents: 'none',
-            zIndex: 0,
-          }}
-        />
-        <div
-          aria-hidden
-          style={{
-            position: 'fixed',
-            bottom: '-80px',
-            left: '-80px',
-            width: '360px',
-            height: '360px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(34,197,147,0.06) 0%, transparent 70%)',
-            pointerEvents: 'none',
-            zIndex: 0,
-          }}
-        />
+        <div aria-hidden style={{ position: 'fixed', top: '-120px', right: '-120px', width: '480px', height: '480px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,79,204,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+        <div aria-hidden style={{ position: 'fixed', bottom: '-80px', left: '-80px', width: '360px', height: '360px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,197,147,0.06) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+
         <div className="relative z-10 py-10 px-4 sm:px-6 lg:px-8 overflow-x-hidden w-full">
           <div className="max-w-7xl mx-auto mb-8">
             <p className="text-xs font-semibold tracking-widest text-[#3B4FCC] uppercase mb-2 flex items-center gap-1.5">
@@ -207,6 +174,7 @@ export function BookingForm() {
               Schedule With Us
             </h1>
           </div>
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6 items-start"
@@ -219,11 +187,7 @@ export function BookingForm() {
                   <label className="block text-xs font-medium text-gray-500 mb-1">Full name</label>
                   <div className="relative">
                     <FieldIcon iconPath={icons.user} />
-                    <input
-                      {...register('fullName')}
-                      placeholder="John Doe"
-                      className={inp(!!errors.fullName)}
-                    />
+                    <input {...register('fullName')} placeholder="John Doe" className={inp(!!errors.fullName)} />
                     {fullNameFilled && !errors.fullName && <CheckIcon />}
                   </div>
                   {errors.fullName && <p className="text-xs text-red-500 mt-1">{errors.fullName.message}</p>}
@@ -233,12 +197,7 @@ export function BookingForm() {
                   <label className="block text-xs font-medium text-gray-500 mb-1">Email</label>
                   <div className="relative">
                     <FieldIcon iconPath={icons.email} />
-                    <input
-                      type="email"
-                      {...register('email')}
-                      placeholder="john.doe@example.com"
-                      className={inp(!!errors.email)}
-                    />
+                    <input type="email" {...register('email')} placeholder="john.doe@example.com" className={inp(!!errors.email)} />
                     {emailFilled && !errors.email && <CheckIcon />}
                   </div>
                   {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
@@ -248,12 +207,7 @@ export function BookingForm() {
                   <label className="block text-xs font-medium text-gray-500 mb-1">Phone</label>
                   <div className="relative">
                     <FieldIcon iconPath={icons.phone} />
-                    <input
-                      type="tel"
-                      {...register('phone')}
-                      placeholder="(555) 123-4567"
-                      className={inp(!!errors.phone)}
-                    />
+                    <input type="tel" {...register('phone')} placeholder="(555) 123-4567" className={inp(!!errors.phone)} />
                   </div>
                   <p className="text-xs text-gray-400 mt-1 flex items-center gap-1">
                     <Icon d={icons.check} size={11} />
@@ -266,11 +220,7 @@ export function BookingForm() {
                   <label className="block text-xs font-medium text-gray-500 mb-1">Full home address</label>
                   <div className="relative">
                     <FieldIcon iconPath={icons.home} />
-                    <input
-                      {...register('address')}
-                      placeholder="123 Main St, Apt 4B, New York, NY 10001"
-                      className={inp(!!errors.address)}
-                    />
+                    <input {...register('address')} placeholder="123 Main St, Apt 4B, New York, NY 10001" className={inp(!!errors.address)} />
                     {addressFilled && !errors.address && <CheckIcon />}
                   </div>
                   {errors.address && <p className="text-xs text-red-500 mt-1">{errors.address.message}</p>}
@@ -285,15 +235,9 @@ export function BookingForm() {
                     defaultValue={CleaningType.REGULAR}
                     onValueChange={(value) => setValue('cleaningType', value as CleaningType)}
                   >
-                    <SelectTrigger
-                      className={`h-10 text-sm rounded-xl border ${
-                        errors.cleaningType ? 'border-red-400' : 'border-gray-200'
-                      } bg-white focus:ring-2 focus:ring-[#3B4FCC]/20`}
-                    >
+                    <SelectTrigger className={`h-10 text-sm rounded-xl border ${errors.cleaningType ? 'border-red-400' : 'border-gray-200'} bg-white focus:ring-2 focus:ring-[#3B4FCC]/20`}>
                       <span className="flex items-center gap-2 text-gray-600">
-                        <span className="text-[#3B4FCC]">
-                          <Icon d={icons.broom} size={14} />
-                        </span>
+                        <span className="text-[#3B4FCC]"><Icon d={icons.broom} size={14} /></span>
                         <SelectValue placeholder="Select cleaning type" />
                       </span>
                     </SelectTrigger>
@@ -305,12 +249,11 @@ export function BookingForm() {
                       ))}
                     </SelectContent>
                   </Select>
-                  {errors.cleaningType && (
-                    <p className="text-xs text-red-500 mt-1">{errors.cleaningType.message}</p>
-                  )}
+                  {errors.cleaningType && <p className="text-xs text-red-500 mt-1">{errors.cleaningType.message}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
+                  {/* Bedrooms — drives pricing tier */}
                   <div>
                     <label className="block text-xs font-medium text-gray-500 mb-1">Bedrooms</label>
                     <div className="relative">
@@ -325,12 +268,15 @@ export function BookingForm() {
                         rooms
                       </span>
                     </div>
-                    {errors.numberOfBedrooms && (
-                      <p className="text-xs text-red-500 mt-1">{errors.numberOfBedrooms.message}</p>
-                    )}
+                    {errors.numberOfBedrooms && <p className="text-xs text-red-500 mt-1">{errors.numberOfBedrooms.message}</p>}
                   </div>
+
+                  {/* Bathrooms — scheduling only, not used for pricing */}
                   <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">Bathrooms</label>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">
+                      Bathrooms
+                      <span className="ml-1 font-normal text-gray-400">(for scheduling)</span>
+                    </label>
                     <div className="relative">
                       <FieldIcon iconPath={icons.bath} />
                       <input
@@ -343,9 +289,7 @@ export function BookingForm() {
                         bath
                       </span>
                     </div>
-                    {errors.numberOfBathrooms && (
-                      <p className="text-xs text-red-500 mt-1">{errors.numberOfBathrooms.message}</p>
-                    )}
+                    {errors.numberOfBathrooms && <p className="text-xs text-red-500 mt-1">{errors.numberOfBathrooms.message}</p>}
                   </div>
                 </div>
               </SectionCard>
@@ -354,41 +298,23 @@ export function BookingForm() {
               <SectionCard iconPath={icons.calendar} title="Scheduling">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">
-                      Preferred date
-                    </label>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Preferred date</label>
                     <input
                       type="date"
                       {...register('preferredDate')}
                       min={new Date().toISOString().split('T')[0]}
-                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white
-                        focus:outline-none focus:ring-2 transition
-                        ${errors.preferredDate
-                          ? 'border-red-400 focus:ring-red-300'
-                          : 'border-gray-200 focus:ring-[#3B4FCC]/20'
-                        }`}
+                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white focus:outline-none focus:ring-2 transition ${errors.preferredDate ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#3B4FCC]/20'}`}
                     />
-                    {errors.preferredDate && (
-                      <p className="text-xs text-red-500 mt-1">{errors.preferredDate.message}</p>
-                    )}
+                    {errors.preferredDate && <p className="text-xs text-red-500 mt-1">{errors.preferredDate.message}</p>}
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-gray-500 mb-1">
-                      Preferred time
-                    </label>
+                    <label className="block text-xs font-medium text-gray-500 mb-1">Preferred time</label>
                     <input
                       type="time"
                       {...register('preferredTime')}
-                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white
-                        focus:outline-none focus:ring-2 transition
-                        ${errors.preferredTime
-                          ? 'border-red-400 focus:ring-red-300'
-                          : 'border-gray-200 focus:ring-[#3B4FCC]/20'
-                        }`}
+                      className={`h-10 text-sm rounded-xl border px-3 w-full bg-white focus:outline-none focus:ring-2 transition ${errors.preferredTime ? 'border-red-400 focus:ring-red-300' : 'border-gray-200 focus:ring-[#3B4FCC]/20'}`}
                     />
-                    {errors.preferredTime && (
-                      <p className="text-xs text-red-500 mt-1">{errors.preferredTime.message}</p>
-                    )}
+                    {errors.preferredTime && <p className="text-xs text-red-500 mt-1">{errors.preferredTime.message}</p>}
                   </div>
                 </div>
               </SectionCard>
@@ -406,9 +332,7 @@ export function BookingForm() {
                         : 'border-gray-200 focus:ring-[#3B4FCC]/20'
                     }`}
                   />
-                  {errors.additionalNotes && (
-                    <p className="text-xs text-red-500 mt-1">{errors.additionalNotes.message}</p>
-                  )}
+                  {errors.additionalNotes && <p className="text-xs text-red-500 mt-1">{errors.additionalNotes.message}</p>}
                   <div className="flex justify-between items-start mt-1.5">
                     <p className="text-xs text-[#3B4FCC]">
                       Examples: focus on kitchen, allergic to certain products.
@@ -430,28 +354,23 @@ export function BookingForm() {
               )}
             </div>
 
-            {/* ── RIGHT COLUMN (sticky price + CTA) ── */}
+            {/* ── RIGHT COLUMN ── */}
             <div className="lg:sticky lg:top-6 space-y-4 min-w-0">
-
               {showPriceCalculator && (
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                  {/* Header */}
                   <div className="flex items-center gap-2 px-5 py-4 border-b border-gray-100 bg-gradient-to-r from-[#EEF2FF] to-white">
-                    <span className="text-[#3B4FCC]">
-                      <Icon d={icons.card} size={16} />
-                    </span>
+                    <span className="text-[#3B4FCC]"><Icon d={icons.card} size={16} /></span>
                     <h2 className="text-sm font-semibold text-gray-800">Price Estimate</h2>
                   </div>
 
                   <div className="px-5 py-4">
+                    {/* ── bathrooms prop removed; pricing is bedroom-category-based only ── */}
                     <PriceCalculator
                       cleaningType={watchedValues.cleaningType}
                       bedrooms={watchedValues.numberOfBedrooms}
-                      bathrooms={watchedValues.numberOfBathrooms}
                     />
                   </div>
 
-                  {/* Cleaning type badge */}
                   <div className="px-5 pb-3">
                     <span className="inline-flex items-center gap-1.5 text-xs bg-[#EEF2FF] text-[#3B4FCC] font-medium px-3 py-1.5 rounded-full border border-[#c7d0f8]">
                       <Icon d={icons.broom} size={11} />
@@ -459,7 +378,6 @@ export function BookingForm() {
                     </span>
                   </div>
 
-                  {/* CTA */}
                   <div className="px-5 pb-5 pt-1 space-y-2">
                     <button
                       type="submit"
@@ -474,20 +392,13 @@ export function BookingForm() {
                       secure · no payment now
                     </p>
                     <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
-                      <span className="flex items-center gap-1">
-                        <Icon d={icons.card} size={11} />
-                        pay later
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Icon d={icons.clock} size={11} />
-                        60s booking
-                      </span>
+                      <span className="flex items-center gap-1"><Icon d={icons.card} size={11} />pay later</span>
+                      <span className="flex items-center gap-1"><Icon d={icons.clock} size={11} />60s booking</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Minimal CTA when price calc not ready */}
               {!showPriceCalculator && (
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-5 space-y-2">
                   <button
@@ -505,7 +416,6 @@ export function BookingForm() {
                 </div>
               )}
 
-              {/* Side trust card */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 space-y-3">
                 <p className="text-xs font-semibold text-gray-700">Why book with us?</p>
                 {[
@@ -523,7 +433,6 @@ export function BookingForm() {
             </div>
           </form>
 
-          {/* ── Footer trust bar — same max-w-7xl ── */}
           <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-gray-200 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-400">
             <div className="flex flex-wrap items-center gap-5">
               <span className="flex items-center gap-1.5 text-emerald-500 font-medium">

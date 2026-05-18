@@ -7,15 +7,13 @@ export const bookingSchema = z.object({
     .min(2, 'Name must be at least 2 characters')
     .max(100, 'Name must be less than 100 characters'),
   email: z.string().email('Invalid email address'),
-  phone: z
-    .union([
-      z.string().length(0), // empty string
-      z.string().regex(/^(?:\+1)?[\s.-]*\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}$/, {
-        message: "Please enter valid phone number ((555) 123-4567 or 555-123-4567)"
-      })
-    ])
+phone: z
+    .string()
+    .regex(/^\+?[\d\s.\-()]{7,15}$/, {
+      message: 'Please enter a valid phone number (e.g. 416 555 0123 or +1 416 555 0123)',
+    })
     .optional()
-    .transform(e => e === "" ? undefined : e),
+    .or(z.literal('')),
   address: z
     .string()
     .min(10, 'Address must be at least 10 characters')
