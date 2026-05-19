@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // ── Default logo (replace with real SVG when available) ──────────────────
 function SparkLogo() {
@@ -111,12 +112,26 @@ function Chevron({ open }: { open: boolean }) {
 
 // ── Main Navbar ──────────────────────────────────────────────────────────
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const servicesButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Returns true if the given href matches the current page
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href);
+
+  // Active = blue + underline; inactive = standard gray hover
+  const activeCls = `relative text-[#3B4FCC] font-semibold after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-full after:bg-[#3B4FCC]`;
+  const inactiveCls = `relative text-gray-600 hover:text-[#3B4FCC] font-medium transition-colors duration-200 after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#3B4FCC] after:transition-all after:duration-200 hover:after:w-full`;
+
+  const linkCls = (href: string) => (isActive(href) ? activeCls : inactiveCls);
+
+  // Services tab is active when on any /services/* page
+  const servicesActive = pathname.startsWith('/services');
 
   // Shadow on scroll
   useEffect(() => {
@@ -146,8 +161,6 @@ export function Navbar() {
     return () => window.removeEventListener('resize', handler);
   }, []);
 
-  const linkCls = `relative text-gray-600 hover:text-[#3B4FCC] font-medium transition-colors duration-200 after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#3B4FCC] after:transition-all after:duration-200 hover:after:w-full`;
-
   return (
     <>
       {/* Google Font */}
@@ -169,16 +182,8 @@ export function Navbar() {
 
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-8">
-              {/* Book link — highlighted */}
-              <Link
-                href="/"
-                className="font-semibold text-[#3B4FCC] hover:text-[#2f42b8] transition-colors duration-200 relative after:absolute after:left-0 after:-bottom-0.5 after:h-[2px] after:w-0 after:bg-[#3B4FCC] after:transition-all after:duration-200 hover:after:w-full"
-                style={{ fontSize: '1rem' }}
-              >
-                Home
-              </Link>
-
-              <Link href="/about" className={linkCls} style={{ fontSize: '1rem' }}>About</Link>
+              <Link href="/" className={linkCls('/')} style={{ fontSize: '1rem' }}>Home</Link>
+              <Link href="/about" className={linkCls('/about')} style={{ fontSize: '1rem' }}>About</Link>
 
               {/* Services Dropdown */}
               <div className="relative">
@@ -186,7 +191,7 @@ export function Navbar() {
                   ref={servicesButtonRef}
                   onClick={() => setServicesOpen(o => !o)}
                   onMouseEnter={() => setServicesOpen(true)}
-                  className={`flex items-center gap-1 ${linkCls}`}
+                  className={`flex items-center gap-1 ${servicesActive ? activeCls : inactiveCls}`}
                   style={{ fontSize: '1rem' }}
                   aria-expanded={servicesOpen}
                 >
@@ -210,13 +215,15 @@ export function Navbar() {
                         key={s.href}
                         href={s.href}
                         onClick={() => setServicesOpen(false)}
-                        className="flex items-start gap-3.5 px-4 py-3 rounded-xl hover:bg-[#EEF2FF] group transition-colors duration-150"
+                        className={`flex items-start gap-3.5 px-4 py-3 rounded-xl group transition-colors duration-150 ${
+                          isActive(s.href) ? 'bg-[#EEF2FF]' : 'hover:bg-[#EEF2FF]'
+                        }`}
                       >
                         <span className="mt-0.5 text-[#3B4FCC] group-hover:scale-110 transition-transform duration-150 shrink-0">
                           {s.icon}
                         </span>
                         <div>
-                          <p className="font-semibold text-gray-800 group-hover:text-[#3B4FCC] transition-colors" style={{ fontSize: '0.95rem' }}>
+                          <p className={`font-semibold transition-colors ${isActive(s.href) ? 'text-[#3B4FCC]' : 'text-gray-800 group-hover:text-[#3B4FCC]'}`} style={{ fontSize: '0.95rem' }}>
                             {s.label}
                           </p>
                           <p className="text-gray-400 mt-0.5" style={{ fontSize: '0.82rem' }}>{s.desc}</p>
@@ -238,9 +245,9 @@ export function Navbar() {
                 </div>
               </div>
 
-              <Link href="/gallery" className={linkCls} style={{ fontSize: '1rem' }}>Gallery</Link>
-              <Link href="/faq" className={linkCls} style={{ fontSize: '1rem' }}>Faq</Link>
-              <Link href="/contact" className={linkCls} style={{ fontSize: '1rem' }}>Contact</Link>
+              <Link href="/gallery" className={linkCls('/gallery')} style={{ fontSize: '1rem' }}>Gallery</Link>
+              <Link href="/faq" className={linkCls('/faq')} style={{ fontSize: '1rem' }}>Faq</Link>
+              <Link href="/contact" className={linkCls('/contact')} style={{ fontSize: '1rem' }}>Contact</Link>
             </nav>
 
             {/* Desktop CTA */}
@@ -276,24 +283,34 @@ export function Navbar() {
           style={{ background: 'white', borderTop: mobileOpen ? '1px solid #f0f0f0' : 'none' }}
         >
           <div className="px-4 py-4 space-y-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
-            {/* Book */}
             <Link
-              href="/book"
-              className="flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-[#3B4FCC] hover:bg-[#EEF2FF] transition-colors"
+              href="/"
+              className={`flex items-center gap-2 px-4 py-3 rounded-xl font-semibold transition-colors ${
+                isActive('/') ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+              }`}
               onClick={() => setMobileOpen(false)}
               style={{ fontSize: '1.05rem' }}
             >
-              Book
+              Home
             </Link>
 
-            <Link href="/about" className="flex items-center px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setMobileOpen(false)} style={{ fontSize: '1.05rem' }}>
+            <Link
+              href="/about"
+              className={`flex items-center px-4 py-3 rounded-xl font-medium transition-colors ${
+                isActive('/about') ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setMobileOpen(false)}
+              style={{ fontSize: '1.05rem' }}
+            >
               About
             </Link>
 
             {/* Mobile Services accordion */}
             <div>
               <button
-                className="flex items-center justify-between w-full px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className={`flex items-center justify-between w-full px-4 py-3 rounded-xl font-medium transition-colors ${
+                  servicesActive ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+                }`}
                 onClick={() => setMobileServicesOpen(o => !o)}
                 style={{ fontSize: '1.05rem' }}
               >
@@ -306,7 +323,9 @@ export function Navbar() {
                     <Link
                       key={s.href}
                       href={s.href}
-                      className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-gray-600 hover:text-[#3B4FCC] hover:bg-[#EEF2FF] transition-colors"
+                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl transition-colors ${
+                        isActive(s.href) ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-600 hover:text-[#3B4FCC] hover:bg-[#EEF2FF]'
+                      }`}
                       onClick={() => { setMobileOpen(false); setMobileServicesOpen(false); }}
                       style={{ fontSize: '0.98rem' }}
                     >
@@ -318,9 +337,36 @@ export function Navbar() {
               </div>
             </div>
 
-            <Link href="/gallery" className="flex items-center px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setMobileOpen(false)} style={{ fontSize: '1.05rem' }}>Gallery</Link>
-            <Link href="/blog" className="flex items-center px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setMobileOpen(false)} style={{ fontSize: '1.05rem' }}>Blog</Link>
-            <Link href="/contact" className="flex items-center px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors" onClick={() => setMobileOpen(false)} style={{ fontSize: '1.05rem' }}>Contact</Link>
+            <Link
+              href="/gallery"
+              className={`flex items-center px-4 py-3 rounded-xl font-medium transition-colors ${
+                isActive('/gallery') ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setMobileOpen(false)}
+              style={{ fontSize: '1.05rem' }}
+            >
+              Gallery
+            </Link>
+            <Link
+              href="/blog"
+              className={`flex items-center px-4 py-3 rounded-xl font-medium transition-colors ${
+                isActive('/blog') ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setMobileOpen(false)}
+              style={{ fontSize: '1.05rem' }}
+            >
+              Blog
+            </Link>
+            <Link
+              href="/contact"
+              className={`flex items-center px-4 py-3 rounded-xl font-medium transition-colors ${
+                isActive('/contact') ? 'text-[#3B4FCC] bg-[#EEF2FF]' : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setMobileOpen(false)}
+              style={{ fontSize: '1.05rem' }}
+            >
+              Contact
+            </Link>
 
             {/* Mobile CTA */}
             <div className="pt-2 pb-1">

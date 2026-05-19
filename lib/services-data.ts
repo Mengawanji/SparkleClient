@@ -19,7 +19,7 @@ export const services: Service[] = [
     tagline: "Your home, spotless — every time.",
     heroDesc:
       "Regular home cleaning packages tailored to your lifestyle. We handle the mess so you can focus on what matters.",
-    accentColor: "#2563EB",
+    accentColor: "#492d49",
     accentLight: "#EFF6FF",
     iconName: "house",
     whatWeClean: [
@@ -53,7 +53,7 @@ export const services: Service[] = [
     tagline: "Professional spaces deserve professional care.",
     heroDesc:
       "Keep your office, retail space, or workspace immaculate. We work around your hours — nights, weekends, whenever.",
-    accentColor: "#0F766E",
+    accentColor: "#492d49",
     accentLight: "#F0FDFA",
     iconName: "monitor",
     whatWeClean: [
@@ -87,7 +87,7 @@ export const services: Service[] = [
     tagline: "Top-to-bottom. Nothing missed.",
     heroDesc:
       "A thorough, intensive clean for spaces that need more than a regular tidy-up. Perfect for move-ins, seasonal resets, or post-party recovery.",
-    accentColor: "#7C3AED",
+    accentColor: "#492d49",
     accentLight: "#F5F3FF",
     iconName: "sparkles",
     whatWeClean: [
@@ -121,7 +121,7 @@ export const services: Service[] = [
     tagline: "Fresh start for every transition.",
     heroDesc:
       "Whether you're leaving or arriving, we ensure the space is spotless. Ideal for landlords, tenants, and real-estate agents.",
-    accentColor: "#EA580C",
+    accentColor: "#645164",
     accentLight: "#FFF7ED",
     iconName: "arrow-right",
     whatWeClean: [
